@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../client/styles.css">
+    <title>Todo App Login</title>
+</head>
+<body style="vertical-align: middle;">
+    <div id="login-container">
+        <form id="login-form">
+            <h3 id="login-title">Login</h3>
+            <input type="text" id="login-username" name="username" placeholder="Username" required>
+            <input type="text" id="login-password" name="password" placeholder="Password" required>
+            <button id="login-btn" hx-post="/login" hx-ext="json-enc" hx-trigger="click" hx-target = "body" hx-swap="outerHTML">Submit</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<div style="width: 600px;" id="edit-form-{{todo_id}}">
+    <form id="edit-todo-form">
+        <input type="text" style="display: none;" name="id" value="{{todo_id}}">
+        <input type="text" id="project" name="project" value="{{project}}" required>
+        <textarea id="task" name="task" rows="1" cols="30">{{task}}</textarea>
+        <select id="priority" name="priority" required>
+            <option id="select-placeholder" value="" disabled selected>Priority</option>
+            {% if task_priority == 1 -%}
+            <option value="1" selected>Low</option>
+            <option value="2">Medium</option>
+            <option value="3">High</option>
+            {% else if task_priority == 2 -%}
+            <option value="1" >Low</option>
+            <option value="2" selected>Medium</option>
+            <option value="3">High</option>
+            {% else -%}
+            <option value="1" >Low</option>
+            <option value="2">Medium</option>
+            <option value="3" selected>High</option>
+            {%- endif %}
+        </select>
+        <button id="submit-edit-btn" hx-patch="/todos/edit" hx-ext="json-enc" hx-target="#edit-form-{{todo_id}}" hx-swap="outerHTML">
+            &#10003;
+        </button>
+    </form>
+</div>
+

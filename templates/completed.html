@@ -1,0 +1,26 @@
+<div class="completed-todo" id="comp-todo-{{todo.todo_id}}" value="{{todo.todo_id}}">
+    {% if todo.task_priority == 1 -%}
+        <div id="todo-priority" style="background-color: blue;"></div>
+    {% else if todo.task_priority == 2 -%}
+        <div id="todo-priority" style="background-color: yellow;"></div>
+    {% else -%}
+        <div id="todo-priority" style="background-color: red;"></div>
+    {%- endif %}
+    <h5 id="completed-project">{{todo.project}}</h5>
+    <p id="completed-task">{{todo.task}}</p>
+    <p id="todo-date">{{date.month}}/{{date.day}}/{{date.year}}</p>
+    <div id="completed-btn-menu">
+        <form>
+            <input style="display: none;" name="id" value="{{todo.todo_id}}">
+            <button id="todo-revert-btn" hx-patch="/todos/revert" hx-ext="json-enc" hx-target="#todo-title" hx-swap="afterend"></button>
+        </form>
+        <form id="delete-todo-form">
+            <input style="display: none;" name="id" value="{{todo.todo_id}}">
+            <button id="todo-delete" hx-delete="/todos/delete" hx-ext="json-enc" hx-trigger="click" hx-target="#comp-todo-{{todo.todo_id}}" hx-swap="outerHTML"></button>
+        </form>
+    </div>
+
+    <div style="display: none;" data-todo-id="{{todo.todo_id}}"></div>
+</div>
+
+<div id="todo-{{todo.todo_id}}" hx-swap-oob="delete"></div>

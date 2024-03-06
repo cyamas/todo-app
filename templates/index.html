@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/htmx.org/dist/ext/json-enc.js"></script>
+    <script src="https://unpkg.com/hyperscript.org@0.9.12"></script>
+    <link rel="stylesheet" href="../client/styles.css">
+    <link href='https://unpkg.com/css.gg@2.0.0/icons/css/trash.css' rel='stylesheet'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <title>Todo App</title>
+</head>
+<body>
+    <div id="today">
+        <h2 id="day-of-week"></h2>
+        <h3 id="date"></h3>
+        <h4 id="time"></h4>
+    </div>
+    <div id="todo-main-container">
+        <div id="todo-subcontainer">
+            <div id="todo-container">
+                <h2 id="todo-title">Pending Todos</h2>
+                {% for todo in pending -%}
+                    {{ todo|safe }}
+                {% endfor -%}
+            </div>
+            <button id="add-todo-btn" onclick="toggleForm()">Add Todo</button>
+            <div id="form-container">
+                <form style="display: none;" id="add-todo-form" hx-on::after-request="resetForm()">
+                    <input type="text" id="project" name="project" placeholder="Project" required>
+                    <textarea id="task" name="task" rows="1" cols="30" placeholder="Task"></textarea>
+                    <select id="priority" name="priority" required>
+                        <option id="select-placeholder" value="" disabled selected>Priority</option>
+                        <option value="1">Low</option>
+                        <option value="2">Medium</option>
+                        <option value="3">High</option>
+                    </select>
+                    <button id="submit-new-todo-btn" hx-post="/todos/add" hx-ext="json-enc" hx-target="#todo-container" hx-swap="beforeend">
+                        +
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div id="completed-todo-container">
+            <h2>Completed Todos</h2>
+            <div id="completed-todos">
+                {% for todo in completed -%}
+                    {{ todo|safe }}
+                {% endfor -%}
+            </div>
+        </div>
+
+    </div>
+
+    <script src="../client/scripts.js"></script>
+</body>
+</html>
