@@ -7,7 +7,9 @@ CREATE TABLE IF NOT EXISTS todos (
     task VARCHAR(255) NOT NULL,
     task_priority INT NOT NULL,
     completed BOOLEAN DEFAULT false NOT NULL,
-    completed_at TIMESTAMPTZ
+    completed_at TIMESTAMPTZ,
+    is_active BOOLEAN DEFAULT false NOT NULL,
+    time_spent INT DEFAULT 0 NOT NULL
 );
 
 CREATE OR REPLACE FUNCTION set_default_created_at()

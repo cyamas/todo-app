@@ -42,6 +42,74 @@ form {
     margin: 0;
 }
 
+#activate-task-btn {
+    display: flex;
+    background-color: transparent;
+    color: transparent;
+    border: none;
+    justify-content: center;
+    align-items: center;
+    font-weight: 900;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    border-radius: 50%;
+}
+
+#activate-task-btn:hover {
+    color: lime;
+}
+
+#active-task-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-width: 500px;
+    border-radius: 8px;
+    vertical-align: center;
+}
+
+.active-todo {
+    display: flex;
+    min-width: 600px;
+    justify-content: center;
+    align-items: center;
+    vertical-align: center;
+    border: 1px solid black;
+    border-radius: 8px;
+}
+
+#active-task-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#active-task-title {
+    color: rgb(0, 216, 0);
+
+}
+
+#active-task-duration {
+    display: flex;
+    background-color: white;
+    border: none;
+    text-align: center;
+    width: 15px;
+}
+
+#active-task-end-btn {
+    background-color: red;
+    color: white;
+    width: 50px;
+    height: 25px;
+    border-radius: 8px;
+    font-size: 12px;
+    text-align: center;
+    border: 1px solid white;
+}
+
 #login-container {
     display: flex;
     flex-direction: column;
@@ -170,7 +238,7 @@ form {
     margin-right: 2px;
     margin-left: 1px;
 }
-#completed-task {
+#completed-task, #active-task {
     margin: 0;
     padding: 0;
     width: 65%;
@@ -220,6 +288,9 @@ form {
 }
 
 #todo-priority {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     padding: 0;
     width: 25px;
     height: 25px;
@@ -227,6 +298,12 @@ form {
     margin-right: 5px;
     margin-left: 2px;
     border: 1px solid black;
+    cursor: pointer;
+    text-align: center;
+}
+
+#todo-priority:hover {
+    background-color: lime;
 }
 
 #todo-task {
@@ -239,6 +316,20 @@ form {
     margin-left: 15px;
     width: 65%;
     overflow-wrap: break-word;
+}
+
+#time-spent {
+    font-size: 14px;
+    font-style: italic;
+    margin-left: 25px;
+    color: #ad0003;
+}
+
+#completed-time-spent {
+    font-size: 14px;
+    font-style: italic;
+    margin-left: 25px;
+    color: rgb(0, 143, 0);
 }
 
 #task-item {
@@ -293,7 +384,7 @@ form {
     color: #BC13FE;
 }
 
-#completed-btn-menu {
+#completed-btn-menu, #active-btn-menu {
     display: flex;
     margin-left: 4px;
 }

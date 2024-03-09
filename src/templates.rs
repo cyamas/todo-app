@@ -47,4 +47,21 @@ pub struct CompletedTodosTemplate {
 }
 
 
+#[derive(Template)]
+#[template(path = "active.html")]
+pub struct ActiveTodoTemplate {
+    pub todo_id: i32,
+    pub project: String,
+    pub task: String,
+    pub task_priority: i32, 
+}
+
+#[derive(Template)]
+#[template(path = "deactivatetodo.html")]
+pub struct DeactivateTodoTemplate {
+    pub todo_id: i32,
+    pub todo: PendingTodoTemplate,
+}
+
+
 

@@ -1,3 +1,14 @@
+function timeTask() {
+    let activeTaskForm = document.getElementById("active-task-form");
+    if (activeTaskForm.style.display != "none") {
+        let durationInput = document.getElementById("active-task-duration");
+        let currValue = parseInt(durationInput.value);
+        durationInput.value = currValue + 1;
+        console.log("test");
+    }
+
+}
+
 function removeFromPending(id) {
     let todoId = "todo-" + id;
     console.log(todoId);
@@ -60,3 +71,5 @@ function getTime() {
 
 getTime();
 setInterval(getTime, 1000);
+
+setInterval(timeTask, 60000);

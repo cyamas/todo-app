@@ -1,6 +1,6 @@
 use axum::{extract::State, Json};
 use tracing::info;
-use crate::{templates::*, AddTodo, AppError, CompletedTodo, Date, EditTodo, PendingTodo, TodoId};
+use crate::{templates::*, AddTodo, AppError, CompletedTodo, Date, EditTodo, PendingTodo, TodoId, ActiveTodo};
 use sqlx::{query_as, PgPool};
 use chrono::Datelike;
 use anyhow::Context;
@@ -14,7 +14,7 @@ pub async fn home(State(pool): State<PgPool>) -> Result<HomeTemplate, AppError> 
     let pending_todos: Vec<PendingTodo> = sqlx::query_as!(
         PendingTodo,
         "
-            SELECT todo_id, project, task, task_priority, created_at FROM todos
+            SELECT todo_id, project, task, task_priority, created_at, time_spent FROM todos
                 WHERE completed = false
                 ORDER BY task_priority DESC
         "
@@ -36,7 +36,7 @@ pub async fn home(State(pool): State<PgPool>) -> Result<HomeTemplate, AppError> 
     let completed_todos = sqlx::query_as!(
         CompletedTodo,
         "
-            SELECT todo_id, project, task, task_priority, completed_at FROM todos
+            SELECT todo_id, project, task, task_priority, completed_at, time_spent FROM todos
                 WHERE completed = true
                 ORDER BY completed_at DESC
         "
@@ -75,7 +75,7 @@ pub async fn add_todo(State(pool): State<PgPool>,Json(payload): Json<AddTodo>) -
     let todo = query_as!(
         PendingTodo,
         "
-            SELECT todo_id, project, task, task_priority, created_at FROM todos
+            SELECT todo_id, project, task, task_priority, created_at, time_spent FROM todos
             ORDER BY todo_id DESC
             LIMIT 1
         "
@@ -110,7 +110,7 @@ pub async fn complete_todo(State(pool): State<PgPool>, Json(data): Json<TodoId>)
     let completed = sqlx::query_as!(
         CompletedTodo,
         "
-            SELECT todo_id, project, task, task_priority, completed_at FROM todos
+            SELECT todo_id, project, task, task_priority, completed_at, time_spent FROM todos
             WHERE todo_id = $1
             ORDER BY completed_at DESC
         ",
@@ -172,7 +172,7 @@ pub async fn edit_todo(State(pool):State<PgPool>, Json(data): Json<EditTodo>) ->
     let todo = query_as!(
         PendingTodo,
         "
-            SELECT todo_id, project, task, task_priority, created_at FROM todos
+            SELECT todo_id, project, task, task_priority, created_at, time_spent FROM todos
             WHERE todo_id = $1
             LIMIT 1
         ",
@@ -208,7 +208,7 @@ pub async fn revert_todo(State(pool): State<PgPool>, Json(data): Json<TodoId>) -
     let todo = sqlx::query_as!(
         PendingTodo,
         "
-            SELECT todo_id, project, task, task_priority, created_at FROM todos
+            SELECT todo_id, project, task, task_priority, created_at, time_spent FROM todos
                 WHERE todo_id = $1
         ",
         todo_id
@@ -223,7 +223,7 @@ pub async fn revert_todo(State(pool): State<PgPool>, Json(data): Json<TodoId>) -
         year: todo.created_at.year(),
     };
 
-    sqlx::query!("UPDATE todos SET completed = false WHERE todo_id = $1", todo_id)
+    sqlx::query!("UPDATE todos SET completed = false, completed_at = to_timestamp(0) WHERE todo_id = $1", todo_id)
     .execute(&pool)
     .await
     .context("Error updating reverted todo in database")?;
@@ -233,4 +233,58 @@ pub async fn revert_todo(State(pool): State<PgPool>, Json(data): Json<TodoId>) -
         todo: PendingTodoTemplate { todo, date},
     })
 
+}
+
+
+pub async fn activate_todo(State(pool): State<PgPool>, Json(data): Json<TodoId>) -> Result<ActiveTodoTemplate, AppError> {
+    let todo_id = data.id.parse::<i32>().expect("could not parse todo id");
+    sqlx::query!(r#"UPDATE todos SET is_active = true WHERE todo_id = $1"#, todo_id)
+    .execute(&pool)
+    .await
+    .context("Error activating todo in database")?;
+    
+    let active_todo = sqlx::query_as!(
+        ActiveTodoTemplate,
+        "
+            SELECT todo_id, project, task, task_priority FROM todos
+                WHERE todo_id = $1
+        ",
+        todo_id
+    )
+    .fetch_one(&pool)
+    .await
+    .context("Error fetching active todo")?;
+
+    Ok(active_todo)
+}
+
+pub async fn deactivate_todo(State(pool): State<PgPool>, Json(data): Json<ActiveTodo>) -> Result<DeactivateTodoTemplate, AppError> {
+    let todo_id = data.id.parse::<i32>().expect("Could not parse todo id");
+    let time_spent = data.duration.parse::<i32>().expect("Could not parse active todo duration");
+    
+    sqlx::query!(r#"UPDATE todos SET is_active = false, time_spent = time_spent + $2 WHERE todo_id = $1"#, todo_id, time_spent)
+    .execute(&pool)
+    .await
+    .context("Error updating is_active to false in database")?;
+
+    let todo = sqlx::query_as!(
+        PendingTodo,
+        "
+        SELECT todo_id, project, task, task_priority, created_at, time_spent FROM todos
+            WHERE todo_id = $1
+    ",
+    todo_id
+    )
+    .fetch_one(&pool)
+    .await
+    .context("Error fetching pending todo from database")?;
+
+    let date = Date {
+        month: todo.created_at.month(),
+        day: todo.created_at.day(),
+        year: todo.created_at.year(),
+    };
+
+    let todo = PendingTodoTemplate { todo, date };
+    Ok(DeactivateTodoTemplate {todo_id, todo })
 }

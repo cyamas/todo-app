@@ -3,7 +3,6 @@ use tower_http::services::ServeDir;
 use sqlx::postgres::PgPoolOptions;
 use anyhow::Context;
 use dotenv::dotenv;
-
 use todo_app::handlers::*;
 
 #[tokio::main]
@@ -31,6 +30,8 @@ async fn main() -> anyhow::Result<()> {
         .route("/todos/edit", patch(edit_todo))
         .route("/todos/delete", delete(delete_todo))
         .route("/todos/revert", patch(revert_todo))
+        .route("/todos/activate", patch(activate_todo))
+        .route("/todos/deactivate", patch(deactivate_todo))
         .with_state(pool);
         
 

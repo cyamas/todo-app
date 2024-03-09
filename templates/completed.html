@@ -7,7 +7,7 @@
         <div id="todo-priority" style="background-color: red;"></div>
     {%- endif %}
     <h5 id="completed-project">{{todo.project}}</h5>
-    <p id="completed-task">{{todo.task}}</p>
+    <p id="completed-task">{{todo.task}} <span id="completed-time-spent">{{todo.time_spent}} min</span></p>
     <p id="todo-date">{{date.month}}/{{date.day}}/{{date.year}}</p>
     <div id="completed-btn-menu">
         <form>

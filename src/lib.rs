@@ -22,6 +22,7 @@ pub struct PendingTodo {
     pub task: String,
     pub task_priority: i32,
     pub created_at: DateTime<Utc>,
+    pub time_spent: i32,
 }
 
 #[derive(Deserialize)]
@@ -43,6 +44,13 @@ pub struct CompletedTodo {
     pub task: String,
     pub task_priority: i32,
     pub completed_at: Option<DateTime<Utc>>,
+    pub time_spent: i32,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct ActiveTodo {
+    pub id: String,
+    pub duration: String,
 }
 
 #[derive(Debug)]
