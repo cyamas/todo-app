@@ -1,0 +1,6 @@
+<div id="progress-btn-{{todo_id}}">
+    <form id="show-progress-form">
+        <input style="display: none;" name="id" value="{{todo_id}}">
+        <button id="show-progress-btn" hx-patch="/todos/progress" hx-ext="json-enc" hx-trigger="click" hx-target="#progress-btn-{{todo_id}}" hx-swap="outerHTML">&or;</button>  
+    </form>
+</div>

@@ -1,0 +1,2 @@
+ALTER TABLE todo
+ADD total_time INT DEFAULT 0 NOT NULL;

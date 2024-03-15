@@ -1,0 +1,10 @@
+<div class="progress" id="progress-{{todo_id}}">
+    <form>
+        <input style="display: none;" type="text" name="id" value="{{todo_id}}">
+        <button id="hide-progress-btn" hx-patch="/todos/hideprogress" hx-ext="json-enc" hx-trigger="click" hx-target="#progress-{{todo_id}}" hx-swap="outerHTML">&and;</button>
+    </form>
+    <h4>Progress</h4>
+    {% for note in progress %}
+        {{ note|safe }}
+    {% endfor %}
+</div>

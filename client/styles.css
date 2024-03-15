@@ -44,8 +44,11 @@ form {
 
 #activate-task-btn {
     display: flex;
+    width: 15px;
+    height: 15px;
+    background-image: url("/client/move.png");
+    background-size: contain;
     background-color: transparent;
-    color: transparent;
     border: none;
     justify-content: center;
     align-items: center;
@@ -57,7 +60,8 @@ form {
 }
 
 #activate-task-btn:hover {
-    color: lime;
+    width: 17px;
+    height: 17px;
 }
 
 #active-task-container {
@@ -68,6 +72,13 @@ form {
     min-width: 500px;
     border-radius: 8px;
     vertical-align: center;
+}
+
+#active-task-template {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .active-todo {
@@ -87,8 +98,17 @@ form {
 }
 
 #active-task-title {
+    text-align: center;
     color: rgb(0, 216, 0);
 
+}
+
+#active-project {
+    width: 18%;
+}
+
+#active-task {
+    width: 65%;
 }
 
 #active-task-duration {
@@ -108,6 +128,67 @@ form {
     font-size: 12px;
     text-align: center;
     border: 1px solid white;
+}
+
+.progress {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#show-progress-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#show-progress-btn, #hide-progress-btn {
+    margin: 0;
+    padding: 0;
+    border: none;
+    background-color: white;
+    text-align: center;
+    font-size: 16px;
+    margin-bottom: 3px;
+    color: grey;
+    font-weight: 900;
+}
+
+#show-progress-btn:hover {
+    font-size: 16px;
+}
+
+.progress-note {
+    display: flex;
+    width: 625px;
+    align-items: center;
+    min-height: 36px;
+}
+
+#note-text, #progress-duration, #progress-date {
+    margin: 0;
+    padding: 0;
+    font-size: 13px;
+}
+
+#note-text {
+    width: 75%;
+    margin: 10px;
+}
+
+#progress-duration {
+    width: 10%;
+    color: #ad0003;
+}
+
+#progress-date {
+    display: flex;
+    text-align: center;
+    width: 15%;
+    font-weight: 700;
+    font-size: 12px;
 }
 
 #login-container {
@@ -257,8 +338,9 @@ form {
     align-items: center;
     border: 1px solid black;
     margin: 5px;
+    padding-top: 15px;
     border-radius: 8px;
-    width: 600px;
+    width: 650px;
     min-height: 36px;
 }
 
@@ -268,6 +350,8 @@ form {
     align-items: center;
     width: 100%;
     height: 100%;
+    margin-bottom: 0;
+    padding-bottom: 0;
 }
 
 #todo-subcontainer {
@@ -275,7 +359,7 @@ form {
     flex-direction: column;
     align-items: center;
     vertical-align: top;
-    width: 600px;
+    width: 650px;
     align-items: center;
 }
 
@@ -318,10 +402,10 @@ form {
     overflow-wrap: break-word;
 }
 
-#time-spent {
+.time-spent {
     font-size: 14px;
     font-style: italic;
-    margin-left: 25px;
+    margin-left: 10px;
     color: #ad0003;
 }
 
@@ -406,7 +490,7 @@ form {
     width: 16px;
 }
 
-#todo-delete {
+#todo-delete, #delete-progress-btn {
     width: 15px;
     height: 15px;
     margin: 0;

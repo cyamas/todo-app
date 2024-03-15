@@ -21,9 +21,9 @@ async fn main() -> anyhow::Result<()> {
     
 
     let app = Router::new()
+        .nest_service("/client", ServeDir::new("client"))
         .route("/login", get(login))
         .route("/", get(home))
-        .nest_service("/client", ServeDir::new("client"))
         .route("/todos/add", post(add_todo))
         .route("/todos/complete", post(complete_todo))
         .route("/todos/editform", post(edit_form))
@@ -32,6 +32,9 @@ async fn main() -> anyhow::Result<()> {
         .route("/todos/revert", patch(revert_todo))
         .route("/todos/activate", patch(activate_todo))
         .route("/todos/deactivate", patch(deactivate_todo))
+        .route("/todos/progress", patch(show_progress))
+        .route("/todos/hideprogress", patch(hide_progress))
+        .route("/todos/deleteprogress", delete(delete_progress))
         .with_state(pool);
         
 

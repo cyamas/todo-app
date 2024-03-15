@@ -1,33 +1,22 @@
 <div class="todo" id="todo-{{todo.todo_id}}">
     <div id="todo-main">
         {% if todo.task_priority == 1 -%}
-            <div id="todo-priority" style="background-color: blue;">
-                <form id="activate-task-form">
-                    <input type="text" name="id" value="{{todo.todo_id}}" style="display: none;">
-                    <button id="activate-task-btn" hx-patch="/todos/activate" hx-ext="json-enc" hx-trigger="click" hx-target="#active-task-container" hx-swap="beforeend">GO</button>
-                </form>
-            </div>
+            <div id="todo-priority" style="background-color: blue;"></div>
         {% else if todo.task_priority == 2 -%}
-            <div id="todo-priority" style="background-color: yellow;">
-                <form id="activate-task-form">
-                    <input type="text" name="id" value="{{todo.todo_id}}" style="display: none;">
-                    <button id="activate-task-btn" hx-patch="/todos/activate" hx-ext="json-enc" hx-trigger="click" hx-target="#active-task-container" hx-swap="beforeend">GO</button>
-                </form>
-            </div>
+            <div id="todo-priority" style="background-color: yellow;"></div>
         {% else -%}
-            <div id="todo-priority" style="background-color: red;">
-                <form id="activate-task-form">
-                    <input type="text" name="id" value="{{todo.todo_id}}" style="display: none;">
-                    <button id="activate-task-btn" hx-patch="/todos/activate" hx-ext="json-enc" hx-trigger="click" hx-target="#active-task-container" hx-swap="beforeend">GO</button>
-                </form>
-            </div>
+            <div id="todo-priority" style="background-color: red;"></div>
         {%- endif %}
         <h3 id="todo-project">{{todo.project}}</h3>
         <ul id="todo-task">
-            <li id="task-item">{{todo.task}} <span id="time-spent">{{todo.time_spent}} min</span></li>
+            <li id="task-item">{{todo.task}} <span class="time-spent" id="time-spent-{{todo.todo_id}}">{{todo.total_time}} min</span></li>
         </ul>
         <p id="todo-date">{{date.month}}/{{date.day}}/{{date.year}}</p>   
         <div style="display: flex;" id="todo-btn-menu" >
+            <form id="activate-task-form">
+                <input type="text" name="id" value="{{todo.todo_id}}" style="display: none;">
+                <button id="activate-task-btn" hx-patch="/todos/activate" hx-ext="json-enc" hx-trigger="click" hx-target="#active-task-container" hx-swap="beforeend"></button>
+            </form>
             <form id="delete-todo-form">
                 <input style="display: none;" name="id" value="{{todo.todo_id}}">
                 <button id="todo-delete" hx-delete="/todos/delete" hx-ext="json-enc" hx-trigger="click" hx-target="#todo-{{todo.todo_id}}" hx-swap="delete"></button>
@@ -41,5 +30,11 @@
                 <button id="todo-complete" hx-post="/todos/complete" hx-ext="json-enc" hx-trigger="click" hx-target="#completed-todos" hx-swap="afterbegin">&#10003;</button>
             </form>
         </div>   
+    </div>
+    <div id="progress-btn-{{todo.todo_id}}">
+        <form id="show-progress-form">
+            <input style="display: none;" name="id" value="{{todo.todo_id}}">
+            <button id="show-progress-btn" hx-patch="/todos/progress" hx-ext="json-enc" hx-trigger="click" hx-target="#progress-btn-{{todo.todo_id}}" hx-swap="outerHTML">&or;</button>  
+        </form>
     </div>
 </div>

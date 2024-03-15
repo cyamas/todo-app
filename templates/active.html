@@ -1,4 +1,6 @@
-<div class="active-todo" id="active-todo-{{todo_id}}" value="{{todo_id}}">
+<div id="active-task-template">
+    <h2 id="active-task-title">Active Task</h2>
+    <div class="active-todo" id="active-todo-{{todo_id}}" value="{{todo_id}}">
     {% if task_priority == 1 -%}
         <div id="todo-priority" style="background-color: blue;"></div>
     {% else if task_priority == 2 -%}
@@ -11,13 +13,14 @@
     <div id="active-btn-menu">
         <form id="active-task-form">
             <input name="id" value="{{todo_id}}" style="display: none;">
+            <input type="text" name="note" placeholder="Progress made">
             <input id="active-task-duration" type="text" name="duration" value="0" readonly>
             <p> min</p>
             <button id="active-task-end-btn" hx-patch="/todos/deactivate" hx-ext="json-enc" hx-target="#todo-title" hx-swap="afterend">STOP</button> 
         </form>
     </div>
-
     <div style="display: none;" data-todo-id="{{todo_id}}"></div>
+    </div>
 </div>
 
 <div id="todo-{{todo_id}}" hx-swap-oob="delete"></div>

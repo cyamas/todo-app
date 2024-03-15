@@ -63,5 +63,36 @@ pub struct DeactivateTodoTemplate {
     pub todo: PendingTodoTemplate,
 }
 
+#[derive(Template)]
+#[template(path = "progressnote.html")]
+pub struct ProgressNoteTemplate {
+    pub progress_id: i32,
+    pub note: String,
+    pub time_spent: i32,
+    pub date: Date,
+    pub todo_id: i32,
+}
+
+#[derive(Template)]
+#[template(path = "progress.html")]
+pub struct ProgressTemplate {
+    pub todo_id: i32,
+    pub progress: Vec<ProgressNoteTemplate>,
+}
+
+#[derive(Template)]
+#[template(path = "hideprogress.html")]
+pub struct HideProgressTemplate {
+    pub todo_id: i32,
+}
+
+#[derive(Template)]
+#[template(path = "deleteprogress.html")]
+pub struct DeleteProgressTemplate {
+    pub todo_id: i32,
+    pub total_time: i32,
+}
+
+
 
 
